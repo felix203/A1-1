@@ -1,2 +1,2 @@
 # A1-1
-coddssey AI Native Advanced 1st mission
+codyssey AI Native Advanced 1st mission
