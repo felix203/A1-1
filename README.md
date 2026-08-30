@@ -139,13 +139,15 @@ load_data()         # JSON 불러오기
 <!-- GitHub에서 편집 시 이미지를 드래그 앤 드롭하면 자동으로 링크가 생성됩니다 -->
 
 **개발 환경 (VSCode, Python·Git 버전)**
-<!-- 여기에 스크린샷 -->
-
+<img width="957" height="1028" alt="개발환경" src="https://github.com/user-attachments/assets/bb5d97da-b8f3-49c6-985e-777dd4c56202" />
 **프로그램 실행 화면 (메뉴·추가·목록·검색)**
-<!-- 여기에 스크린샷 -->
+
+<img width="358" height="781" alt="실행화면2" src="https://github.com/user-attachments/assets/32e75bd3-2620-4574-87cb-2b5bdbe471ef" />
+<img width="652" height="724" alt="실행화면1" src="https://github.com/user-attachments/assets/44b8162b-874c-4262-a646-b8789fe56ece" />
 
 **커밋 그래프 (`git log --oneline --graph`)**
-<!-- 여기에 스크린샷 -->
+<img width="662" height="408" alt="커밋그래프" src="https://github.com/user-attachments/assets/6ee144d8-1b41-4a29-8e71-257192522024" />
+
 
 ---
 
