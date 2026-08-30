@@ -131,6 +131,8 @@ load_data()         # JSON 불러오기
 - ✅ 총 **11개 커밋** (기능 단위)
 - ✅ `init`, `add`, `commit`, `push`, `pull`, `checkout`, `clone`, `merge` 모두 사용
 - ✅ 브랜치 생성 및 병합 기록 4회
+- ✅ 로컬에서 `git checkout -b`로 브랜치 생성 후 
+     `git merge`로 병합, GitHub PR로 최종 반영
 
 ---
 
