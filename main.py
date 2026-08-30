@@ -68,6 +68,16 @@ def add_prompt():
     while True:
         title = input("제목: ").strip()
         if title:
+            duplicate = False
+            for prompt in prompts:
+                if prompt["title"] == title:
+                    duplicate = True
+                    break
+            
+            if duplicate:
+                print(f"⚠️ '{title}' 은(는) 이미 존재하는 제목입니다!")
+                print("다른 제목을 입력해주세요.")
+                continue  # 다시 제목 입력
             break
         print("❌ 제목은 필수입니다!")
 
