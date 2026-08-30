@@ -1,5 +1,6 @@
 # main.py - 프롬프트 관리 프로그램
-
+import json  # ← 추가
+import os    # ← 추가
 prompts = [
     {
         "id": 1,
@@ -27,6 +28,30 @@ prompts = [
 next_id = 4
 CATEGORIES = ["글쓰기", "개발", "번역", "이미지 생성", "페르소나", "자동화", "기타"]
 
+FILE_NAME = "prompts.json"  # ← 추가
+
+
+# ── 저장 ───────────────────────────────────
+def save_data():
+    data = {
+        "next_id": next_id,
+        "prompts": prompts
+    }
+    with open(FILE_NAME, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    print("💾 저장 완료!")
+
+
+# ── 불러오기 ───────────────────────────────
+def load_data():
+    global prompts, next_id
+    if not os.path.exists(FILE_NAME):
+        return  # 파일 없으면 기본 데이터 사용
+    with open(FILE_NAME, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    prompts = data["prompts"]
+    next_id = data["next_id"]
+    print("📂 데이터 불러오기 완료!")
 
 # ── 메뉴 출력 ──────────────────────────────
 def show_menu():
@@ -308,6 +333,7 @@ def delete_prompt():
 # ── 메인 루프 ──────────────────────────────
 def main():
     print("프롬프트 관리 프로그램을 시작합니다!")
+    load_data()  # ← 추가 (시작 시 자동 불러오기)
     while True:
         show_menu()
         choice = input("메뉴 선택: ").strip()
@@ -316,6 +342,7 @@ def main():
             show_all()
         elif choice == "2":
             add_prompt()
+            save_data()   # ← 추가
         elif choice == "3":
             show_by_category()
         elif choice == "4":
@@ -324,12 +351,15 @@ def main():
             show_detail()
         elif choice == "6":
             manage_favorites()
+            save_data()   # ← 추가
         elif choice == "7":
-            edit_prompt()       # ← 새로 추가
+            edit_prompt()
+            save_data()   # ← 추가
         elif choice == "8":
-            show_stats()        # ← 새로 추가
+            show_stats()
         elif choice == "9":
-            delete_prompt()     # ← 9번으로 변경
+            delete_prompt()
+            save_data()   # ← 추가
         elif choice == "0":
             print("👋 프로그램을 종료합니다.")
             break
