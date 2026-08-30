@@ -1,6 +1,5 @@
 # main.py - 프롬프트 관리 프로그램
 
-# 데이터 저장소 (기본 프롬프트 3개 포함)
 prompts = [
     {
         "id": 1,
@@ -40,7 +39,9 @@ def show_menu():
     print("4. 프롬프트 검색")
     print("5. 프롬프트 상세 보기")
     print("6. 즐겨찾기 관리")
-    print("7. 프롬프트 삭제")
+    print("7. 프롬프트 수정")   # ← 새로 추가
+    print("8. 통계 보기")       # ← 새로 추가
+    print("9. 프롬프트 삭제")   # ← 9번으로 변경
     print("0. 종료")
     print("="*40)
 
@@ -64,21 +65,18 @@ def add_prompt():
     print("\n➕ 프롬프트 추가")
     print("-"*40)
 
-    # 제목 입력
     while True:
         title = input("제목: ").strip()
         if title:
             break
         print("❌ 제목은 필수입니다!")
 
-    # 내용 입력
     while True:
         content = input("내용: ").strip()
         if content:
             break
         print("❌ 내용은 필수입니다!")
 
-    # 카테고리 선택
     print("\n카테고리 선택:")
     for i, cat in enumerate(CATEGORIES, 1):
         print(f"  {i}. {cat}")
@@ -117,9 +115,7 @@ def show_by_category():
     print("\n📂 카테고리별 조회")
     print("-"*40)
 
-    # 현재 사용 중인 카테고리만 추출
-    used_categories = list(set(p["category"] for p in prompts))
-    used_categories.sort()
+    used_categories = sorted(list(set(p["category"] for p in prompts)))
 
     print("카테고리 목록:")
     for i, cat in enumerate(used_categories, 1):
@@ -225,7 +221,6 @@ def manage_favorites():
             if not target:
                 print("❌ 해당 ID가 없습니다.")
                 return
-            # 토글 (True ↔ False)
             target["favorite"] = not target["favorite"]
             status = "추가" if target["favorite"] else "해제"
             print(f"✅ '{target['title']}' 즐겨찾기 {status}!")
@@ -233,6 +228,54 @@ def manage_favorites():
             print("❌ 숫자를 입력해주세요.")
     else:
         print("❌ 잘못된 입력입니다.")
+
+
+# ── 프롬프트 수정 ──────────────────────────
+def edit_prompt():
+    print("\n✏️  프롬프트 수정")
+    print("-"*40)
+    show_all()
+
+    try:
+        pid = int(input("수정할 ID: "))
+        target = next((p for p in prompts if p["id"] == pid), None)
+        if not target:
+            print("❌ 해당 ID가 없습니다.")
+            return
+
+        print(f"\n현재 제목: {target['title']}")
+        new_title = input("새 제목 (그대로면 Enter): ").strip()
+
+        print(f"현재 내용: {target['content'][:50]}...")
+        new_content = input("새 내용 (그대로면 Enter): ").strip()
+
+        if new_title:
+            target["title"] = new_title
+        if new_content:
+            target["content"] = new_content
+
+        print("✅ 수정 완료!")
+
+    except ValueError:
+        print("❌ 숫자를 입력해주세요.")
+
+
+# ── 통계 보기 ──────────────────────────────
+def show_stats():
+    print("\n📊 통계")
+    print("="*40)
+    print(f"전체 프롬프트 : {len(prompts)}개")
+    print(f"즐겨찾기      : {len([p for p in prompts if p['favorite']])}개")
+    print()
+    print("📂 카테고리별 현황")
+    print("-"*40)
+    used = {}
+    for p in prompts:
+        used[p["category"]] = used.get(p["category"], 0) + 1
+    for cat, count in sorted(used.items()):
+        bar = "█" * count
+        print(f"  {cat:<10} {bar} ({count}개)")
+    print("="*40)
 
 
 # ── 삭제 ───────────────────────────────────
@@ -272,7 +315,11 @@ def main():
         elif choice == "6":
             manage_favorites()
         elif choice == "7":
-            delete_prompt()
+            edit_prompt()       # ← 새로 추가
+        elif choice == "8":
+            show_stats()        # ← 새로 추가
+        elif choice == "9":
+            delete_prompt()     # ← 9번으로 변경
         elif choice == "0":
             print("👋 프로그램을 종료합니다.")
             break
